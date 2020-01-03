@@ -1,0 +1,413 @@
+#+TITLE: Emacs Literate Config for Doom Emacs
+#+AUTHOR: Nathan Slaughter
+
+* How to Use
+
+** Commands
+- C-c C-v C-f : Tangle to config files. Currently in ~/.doom.d
+
+You can tangle the code from this configuration out to a file with C-c C-v C-f
+or C-c C-v f. The blocks go in order either to a file that uses the base name of
+the current file and an extension derived from the language of the source or to
+the file path specified as the value for :tangle.
+
+Here are some ideas for literate config of Emacs.
+- [[https://jamiecollinson.com/blog/my-emacs-config/][Jaime Collinson's Emacs
+Config accessed 2019-12-04]]
+
+* About
+
+This is the literate configuration for my Emacs. Right now I'm using Doom Emacs,
+so the first part of this is centered around configuring [[https://github.com/hlissner/doom-emacs][Doom Emacs]].
+
+The default configuration for Doom puts the "doom block" in [[file:~/.doom.d/init.el][init.el]]. Then it
+puts the user configuration in [[file:~/.doom.d/config.el][config.el]]. And finally there is a file to load
+other packages at [[file:~/.doom.d/packages.el][packages.el]].
+
+
+* The DOOM block - init.el
+
+All of the Doom Emacs configuration happens within the =doom!= function. In the
+initial configuration it divides into the following sections:
+- completion :: completion backends
+- ui :: make it look Doomful
+- editor :: text editing packages (if you want Emacs to be a text editor)
+- emacs :: manage emacs core
+- term :: which terminals do you love
+- tools :: tool packs to break stuff faster
+- lang :: language packs to load and love
+- email :: tools for emailing in Emacs
+- app :: apps to give more of your life to emacs
+- config :: figure it out from modules/README.org
+
+** Doom config header comments
+
+The header comment tells us (1) where Doom puts config files, (2) how to start
+from the example, and where to get more information about modules.
+
+Equally important it tells Emacs to optimize with lexical binding.
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.doom.d/init.el
+;;; .doom.d/init.el -*- lexical-binding: t; -*-
+;;
+;; This file is managed by literate config at ~/org/lit-config/emacs-doom.org
+;;
+;; The Doom init file belongs in ~/.doom.d/init.el or ~/.config/doom/init.el
+;; ('doom install' will copy an init.example.el to that location for you).
+;;
+;; The `doom!' block below controls what modules are enabled and in what order
+;; they will be loaded. Remember to run 'doom refresh' after modifying it.
+;;
+;; More information about these modules (and what flags they support) can be
+;; found in modules/{topic}/{module_name}/README.org.
+#+END_SRC
+
+** Start Doom block with input
+#+BEGIN_SRC emacs-lisp :tangle ~/.doom.d/init.el
+(doom! :input
+       ;;chinese
+       ;;japanese
+
+#+END_SRC
+
+** Completion modules
+
+The
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.doom.d/init.el
+       :completion
+       company           ; the ultimate code completion backend
+       ;;helm              ; the *other* search engine for love and life
+       ;;ido               ; the other *other* search engine...
+       ivy               ; a search engine for love and life
+
+#+END_SRC
+
+** UI modules
+#+BEGIN_SRC emacs-lisp :tangle ~/.doom.d/init.el
+       :ui
+       ;;deft              ; notational velocity for Emacs
+       doom              ; what makes DOOM look the way it does
+       doom-dashboard    ; a nifty splash screen for Emacs
+       doom-quit         ; DOOM quit-message prompts when you quit Emacs
+       ;;fill-column       ; a `fill-column' indicator
+       hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
+       ;;hydra
+       ;;indent-guides     ; highlighted indent columns
+       modeline          ; snazzy, Atom-inspired modeline, plus API
+       nav-flash         ; blink the current line after jumping
+       ;;neotree           ; a project drawer, like NERDTree for vim
+       ophints           ; highlight the region an operation acts on
+       (popup            ; tame sudden yet inevitable temporary windows
+        +all             ; catch all popups that start with an asterix
+        +defaults)       ; default popup rules
+       ;;pretty-code       ; replace bits of code with pretty symbols
+       ;;tabs              ; an tab bar for Emacs
+       ;;treemacs          ; a project drawer, like neotree but cooler
+       ;;unicode           ; extended unicode support for various languages
+       vc-gutter         ; vcs diff in the fringe
+       vi-tilde-fringe   ; fringe tildes to mark beyond EOB
+       window-select     ; visually switch windows
+       workspaces        ; tab emulation, persistence & separate workspaces
+
+#+END_SRC
+
+** Editor modules
+#+BEGIN_SRC emacs-lisp :tangle ~/.doom.d/init.el
+       :editor
+       (evil +everywhere); come to the dark side, we have cookies
+       file-templates    ; auto-snippets for empty files
+       fold              ; (nigh) universal code folding
+       ;;(format +onsave)  ; automated prettiness
+       ;;god               ; run Emacs commands without modifier keys
+       ;;lispy             ; vim for lisp, for people who don't like vim
+       multiple-cursors  ; editing in many places at once
+       ;;objed             ; text object editing for the innocent
+       ;;parinfer          ; turn lisp into python, sort of
+       rotate-text       ; cycle region at point between text candidates
+       snippets          ; my elves. They type so I don't have to
+       ;;word-wrap         ; soft wrapping with language-aware indent
+
+#+END_SRC
+
+** Emacs modules
+#+BEGIN_SRC emacs-lisp :tangle ~/.doom.d/init.el
+       :emacs
+       dired             ; making dired pretty [functional]
+       electric          ; smarter, keyword-based electric-indent
+       ibuffer           ; interactive buffer management
+       vc                ; version-control and Emacs, sitting in a tree
+
+#+END_SRC
+
+** Term modules
+#+BEGIN_SRC emacs-lisp :tangle ~/.doom.d/init.el
+       :term
+       eshell            ; a consistent, cross-platform shell (WIP)
+       ;;shell             ; a terminal REPL for Emacs
+       ;;term              ; terminals in Emacs
+       ;;vterm             ; another terminals in Emacs
+
+#+END_SRC
+
+** Tools modules
+#+BEGIN_SRC emacs-lisp :tangle ~/.doom.d/init.el
+       :tools
+       ansible
+       ;;debugger          ; FIXME stepping through code, to help you add bugs
+       ;;direnv
+       docker
+       ;;editorconfig      ; let someone else argue about tabs vs spaces
+       ;;ein               ; tame Jupyter notebooks with emacs
+       (eval +overlay)     ; run code, run (also, repls)
+       flycheck          ; tasing you for every semicolon you forget
+       ;;flyspell          ; tasing you for misspelling mispelling
+       gist              ; interacting with github gists
+       (lookup           ; helps you navigate your code and documentation
+        +docsets)        ; ...or in Dash docsets locally
+       ;;lsp
+       macos             ; MacOS-specific commands
+       magit             ; a git porcelain for Emacs
+       make              ; run make tasks from Emacs
+       pass              ; password manager for nerds
+       ;;pdf               ; pdf enhancements
+       ;;prodigy           ; FIXME managing external services & code builders
+       ;;rgb               ; creating color strings
+       terraform         ; infrastructure as code
+       ;;tmux              ; an API for interacting with tmux
+       ;;upload            ; map local to remote projects via ssh/ftp
+       ;;wakatime
+
+#+END_SRC
+
+** Lang modules
+#+BEGIN_SRC emacs-lisp :tangle ~/.doom.d/init.el
+       :lang
+       ;;agda              ; types of types of types of types...
+       assembly          ; assembly for fun or debugging
+       cc                ; C/C++/Obj-C madness
+       ;;clojure           ; java with a lisp
+       common-lisp       ; if you've seen one lisp, you've seen them all
+       ;;coq               ; proofs-as-programs
+       ;;crystal           ; ruby at the speed of c
+       ;;csharp            ; unity, .NET, and mono shenanigans
+       data              ; config/data formats
+       ;;elixir            ; erlang done right
+       ;;elm               ; care for a cup of TEA?
+       emacs-lisp        ; drown in parentheses
+       ;;erlang            ; an elegant language for a more civilized age
+       ;;ess               ; emacs speaks statistics
+       ;;faust             ; dsp, but you get to keep your soul
+       ;;fsharp           ; ML stands for Microsoft's Language
+       go                ; the hipster dialect
+       ;;(haskell +intero) ; a language that's lazier than I am
+       ;;hy                ; readability of scheme w/ speed of python
+       ;;idris             ;
+       ;;(java +meghanada) ; the poster child for carpal tunnel syndrome
+       ;;javascript        ; all(hope(abandon(ye(who(enter(here))))))
+       ;;julia             ; a better, faster MATLAB
+       kotlin            ; a better, slicker Java(Script)
+       latex             ; writing papers in Emacs has never been so fun
+       ;;lean
+       ;;ledger            ; an accounting system in Emacs
+       ;;lua               ; one-based indices? one-based indices
+       markdown          ; writing docs for people to ignore
+       ;;nim               ; python + lisp at the speed of c
+       nix               ; I hereby declare "nix geht mehr!"
+       ocaml             ; an objective camel
+#+END_SRC
+
+*** Org mode extensions
+#+BEGIN_SRC emacs-lisp :tangle ~/.doom.d/init.el
+       (org              ; organize your plain life in plain text
+        +dragndrop       ; drag & drop files/images into org buffers
+        +hugo            ; use Emacs for hugo blogging
+        +ipython         ; ipython/jupyter support for babel
+        +pandoc          ; export-with-pandoc support
+        ;;+pomodoro        ; be fruitful with the tomato technique
+        +present)        ; using org-mode for presentations
+       ;;perl              ; write code no one else can comprehend
+       ;;php               ; perl's insecure younger brother
+       plantuml          ; diagrams for confusing people more
+       ;;purescript        ; javascript, but functional
+       python            ; beautiful is better than ugly
+       ;;qt                ; the 'cutest' gui framework ever
+       ;;racket            ; a DSL for DSLs
+       ;;rest              ; Emacs as a REST client
+       ;;rst               ; ReST in peace
+       ;;ruby              ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
+       rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+       ;;scala             ; java, but good
+       ;;scheme            ; a fully conniving family of lisps
+       sh                ; she sells {ba,z,fi}sh shells on the C xor
+       ;;solidity          ; do you need a blockchain? No.
+       swift             ; who asked for emoji variables?
+       terra             ; Earth and Moon in alignment for performance.
+       ;;web               ; the tubes
+
+#+END_SRC
+
+** Email modules
+#+BEGIN_SRC emacs-lisp :tangle ~/.doom.d/init.el
+       :email
+       ;;(mu4e +gmail)
+       ;;notmuch
+       ;;(wanderlust +gmail)
+
+#+END_SRC
+
+** App modules
+#+BEGIN_SRC emacs-lisp :tangle ~/.doom.d/init.el
+       :app
+       ;;calendar
+       ;;irc               ; how neckbeards socialize
+       ;;(rss +org)        ; emacs as an RSS reader
+       ;;twitter           ; twitter client https://twitter.com/vnought
+       ;;write             ; emacs for writers (fiction, notes, papers, etc.)
+
+#+END_SRC
+
+** Config modules
+#+BEGIN_SRC emacs-lisp :tangle ~/.doom.d/init.el
+       :config
+       ;;literate
+       (default +bindings +smartparens))
+#+END_SRC
+
+** Specify a customizations file
+Finally we want to direct emacs to get the rest from our custom file.
+This technique is just to keep Emacs from touching this file. I like to use the
+customization file occasionally to snag some output by using the custom
+interface. But that's just a shortcut to write some quick code for me. Whenever
+I make those tweaks I really want to snag them for my literate config.
+
+We're going to write this file in just a moment.
+#+BEGIN_SRC emacs-lisp :tangle ~/.doom.d/init.el
+(setq custom-file "~/.doom.d/custom.el")
+(load custom-file)
+#+END_SRC
+
+
+* The Personal AdditionsInterface - config.el
+
+This is where we put the customizations.
+
+** Header for config.el
+
+Once again we tell Emacs at the top of the file to use lexical-binding.
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.doom.d/config.el
+;;; .doom.d/config.el -*- lexical-binding: t; -*-
+#+END_SRC
+
+** Require extra package
+
+To get org-drill to work I had to start by installing it using...
+M-x package-list-packages. 
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.doom.d/config.el
+(require 'package)
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+
+(package-initialize)
+(require 'cl)
+(require 'org-drill)
+#+END_SRC
+
+
+* The Customized variables - custom.el
+
+Once again we'll start with lexical binding.
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.doom.d/custom.el
+;;; .doom.d/custom.el -*- lexical-binding: t; -*-
+
+#+END_SRC
+
+Now we're going to start the custom-set-variables. Emacs and org-mode use these
+for customization. And they'll write directly to these when you use the
+customize interface.
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.doom.d/custom.el
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ #+END_SRC
+
+** Org Agenda files
+
+These files are used to compose the org agenda.
+
+ #+BEGIN_SRC emacs-lisp :tangle ~/.doom.d/custom.el
+ '(org-agenda-files
+   (quote
+    ("/Users/njs/org/todo.org"
+     "/Users/njs/org/notes.org")))
+#+END_SRC
+
+** Org Capture Templates
+
+These are the capture templates. The syntax is simple. It consists mainly of a
+letter which will serve as a selector key when in the capture template selector
+interface. Then there is the brief description text which shows beside the letter.
+
+The entry is followed by a finder function which locates the point for inserting
+the capture. It's usually a combination of file and point within that file. Then
+there is the insertion template itself.
+
+Insertion templates range quite widely. And their purpose is to capture things
+that will go higher in the funnel.
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.doom.d/custom.el
+ '(org-capture-templates
+   (quote
+    (("t" "Personal todo" entry
+      (file+headline +org-capture-todo-file "Inbox")
+      "* [ ] %?
+%i
+%a" :prepend t)
+     ("n" "Personal notes" entry
+      (file+headline +org-capture-notes-file "Inbox")
+      "* %u %?
+%i
+%a" :prepend t)
+     ("j" "Journal" entry
+      (file+olp+datetree +org-capture-journal-file "Inbox")
+      "* %U %?
+%i
+%a" :prepend t)
+     ("p" "Templates for projects")
+     ("pt" "Project-local todo" entry
+      (file+headline +org-capture-project-todo-file "Inbox")
+      "* TODO %?
+%i
+%a" :prepend t)
+     ("pn" "Project-local notes" entry
+      (file+headline +org-capture-project-notes-file "Inbox")
+      "* %U %?
+%i
+%a" :prepend t)
+     ("pc" "Project-local changelog" entry
+      (file+headline +org-capture-project-changelog-file "Unreleased")
+      "* %U %?
+%i
+%a" :prepend t)
+     ("o" "Centralized templates for projects")
+     ("ot" "Project todo" entry
+      (function +org-capture-central-project-todo-file)
+      "* TODO %?
+ %i
+ %a" :heading "Tasks" :prepend nil)
+     ("on" "Project notes" entry
+      (function +org-capture-central-project-notes-file)
+      "* %U %?
+ %i
+ %a" :prepend t :heading "Notes")
+     ("oc" "Project changelog" entry
+      (function +org-capture-central-project-changelog-file)
+      "* %U %?
+ %i
+ %a" :prepend t :heading "Changelog")))))
+#+END_SRC
